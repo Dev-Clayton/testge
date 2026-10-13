@@ -8,7 +8,7 @@ No player:
 
 A API 2 não é consultada para importar uma lista completa de canais. Apenas a fonte alternativa específica de Adult Swim é adicionada. Se Adult Swim não existir na lista principal, somente esse canal específico é acrescentado para que a opção 2 possa ser acessada.
 
-Instalação: faça backup e envie index.php, api.php e a pasta assets para a mesma pasta pública. Teste api.php no navegador; deve retornar JSON com channels e sources.
+Vercel: a página inicial usa `/`; os endpoints são `/api/api.php` (canais), `/api/epg.php` (programação) e `/api/events.php` (eventos). Os adaptadores em `api/` executam os PHP originais da raiz. Para instalação PHP tradicional, `api.php` continua sendo o endpoint original.
 A reprodução depende de o provedor permitir incorporação em iframe.
 
 Atualização de layout: seletor de transmissão com destaque visual no topo do player; removido o botão de abrir transmissão em nova aba. A opção alternativa Adult Swim é associada ao canal mesmo quando o ID contém hífen, espaço ou variação de maiúsculas/minúsculas.
