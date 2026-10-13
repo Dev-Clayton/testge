@@ -1,3 +1,4 @@
+
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
@@ -6,12 +7,10 @@
       "maxDuration": 30
     }
   },
-  "rewrites": [
-    { "source": "/", "destination": "/api/index.php" },
-    { "source": "/index.php", "destination": "/api/index.php" },
-    { "source": "/guia.php", "destination": "/api/guia.php" },
-    { "source": "/api.php", "destination": "/api/api.php" },
-    { "source": "/epg.php", "destination": "/api/epg.php" },
-    { "source": "/events.php", "destination": "/api/events.php" }
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
   ]
 }
