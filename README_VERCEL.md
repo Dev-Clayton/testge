@@ -7,7 +7,7 @@ Este pacote mantém a aplicação PHP existente e adiciona adaptadores para o ru
 - `index.php`, `guia.php`: páginas PHP originais.
 - `api.php`, `epg.php`, `events.php`: endpoints PHP originais que consultam as APIs de canais, programação e eventos.
 - `api/`: pontos de entrada para as funções PHP na Vercel.
-- `vercel.json`: runtime PHP e rewrites das rotas públicas.
+- `vercel.json`: runtime PHP e rotas públicas para as funções em `api/`. 
 - `assets/logos/`: imagens locais dos canais.
 - `COMPATIBILIDADE.md`: notas de compatibilidade e checklist de acessibilidade.
 
@@ -19,10 +19,13 @@ Este pacote mantém a aplicação PHP existente e adiciona adaptadores para o ru
 4. O arquivo `vercel.json` define o runtime comunitário PHP; não configure o projeto como Next.js.
 5. Faça o deploy e abra as rotas abaixo para validar:
    - `/` — página inicial;
-   - `/guia.php` — guia de programação;
-   - `/api.php` — JSON dos canais;
-   - `/epg.php` — JSON do EPG;
-   - `/events.php` — JSON dos eventos.
+   - `/` — página inicial (executada por `api/index.php`);
+   - `/api/guia.php` — guia de programação;
+   - `/api/api.php` — JSON dos canais;
+   - `/api/epg.php` — JSON do EPG;
+   - `/api/events.php` — JSON dos eventos.
+
+   As rotas antigas `/guia.php`, `/api.php`, `/epg.php` e `/events.php` também são encaminhadas pelo `vercel.json`.
 
 ## Importante sobre PHP na Vercel
 
@@ -41,9 +44,9 @@ Depois abra `http://127.0.0.1:8000/`. O servidor local serve a estrutura origina
 ## Checklist após o deploy
 
 - [ ] A home abre sem erro 500.
-- [ ] `/api.php` retorna JSON com `channels`.
-- [ ] `/epg.php` retorna JSON de programação (pode retornar `[]` se a fonte externa falhar).
-- [ ] `/events.php` retorna uma lista JSON ou uma mensagem de erro JSON.
+- [ ] `/api/api.php` retorna JSON com `channels`.
+- [ ] `/api/epg.php` retorna JSON de programação (pode retornar `[]` se a fonte externa falhar).
+- [ ] `/api/events.php` retorna uma lista JSON ou uma mensagem de erro JSON.
 - [ ] `/guia.php` carrega e os filtros/paginação funcionam.
 - [ ] Logos em `assets/logos/` carregam.
 - [ ] Verificar os logs das funções na Vercel se uma API externa não responder.
