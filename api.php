@@ -8,8 +8,31 @@ function get_json($url) {
   return is_string($body)?json_decode($body,true):null;
 }
 function normalize_primary($data) {
-  if(!is_array($data)||!isset($data['channels'])||!is_array($data['channels'])) return [];
-  $out=[]; foreach($data['channels'] as $c) { if(!is_array($c))continue; $id=trim((string)($c['id']??$c['slug']??'')); $url=trim((string)($c['url']??$c['embed_url']??$c['stream_url']??'')); if($id===''||!preg_match('~^https?://~i',$url))continue; $out[$id]=['id'=>$id,'name'=>(string)($c['name']??$c['title']??$id),'url'=>$url,'image'=>(string)($c['image']??$c['logo']??''),'category'=>(string)($c['category']??'Outros'),'categories'=>is_array($c['categories']??null)?$c['categories']:[],'epg'=>is_array($c['epg']??null)?$c['epg']:[],'sources'=>['api1'=>['label'=>'Opção 1 · API principal','url'=>$url]]]; } return $out;
+  $items=[];
+  if(!is_array($data)) return [];
+  if(is_array($data['channels']??null)) $items=$data['channels'];
+  elseif(is_array($data['data']['channels']??null)) $items=$data['data']['channels'];
+  elseif(is_array($data['data']??null)) $items=$data['data'];
+  elseif(is_array($data['results']??null)) $items=$data['results'];
+  elseif(array_is_list($data)) $items=$data;
+  $out=[];
+  foreach($items as $c) {
+    if(!is_array($c)) continue;
+    $id=trim((string)($c['id']??$c['slug']??$c['channel_id']??''));
+    $url=trim((string)($c['url']??$c['embed_url']??$c['stream_url']??$c['iframe']??''));
+    if($id===''||!preg_match('~^https?://~i',$url)) continue;
+    $out[$id]=[
+      'id'=>$id,
+      'name'=>(string)($c['name']??$c['title']??$c['channel_name']??$id),
+      'url'=>$url,
+      'image'=>(string)($c['image']??$c['logo']??$c['logo_url']??''),
+      'category'=>(string)($c['category']??'Outros'),
+      'categories'=>is_array($c['categories']??null)?$c['categories']:[],
+      'epg'=>is_array($c['epg']??null)?$c['epg']:[],
+      'sources'=>['api1'=>['label'=>'Opção 1 · API principal','url'=>$url]]
+    ];
+  }
+  return $out;
 }
 function normalize_rei($data) {
   $items=[]; if(is_array($data['data']??null))$items=$data['data']; elseif(is_array($data['channels']??null))$items=$data['channels']; elseif(is_array($data)&&array_is_list($data))$items=$data;
