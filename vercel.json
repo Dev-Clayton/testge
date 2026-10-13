@@ -1,4 +1,3 @@
-
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
@@ -8,9 +7,11 @@
     }
   },
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
-    }
+    { "src": "/", "dest": "/api/index.php" },
+    { "src": "/index\\.php", "dest": "/api/index.php" },
+    { "src": "/guia\\.php", "dest": "/api/guia.php" },
+    { "src": "/api\\.php", "dest": "/api/api.php" },
+    { "src": "/epg\\.php", "dest": "/api/epg.php" },
+    { "src": "/events\\.php", "dest": "/api/events.php" }
   ]
 }
